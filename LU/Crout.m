@@ -46,3 +46,4 @@ end
 
 end
 
+%tested for numeric 3x3, numeric 6x6, symbolic 3x3

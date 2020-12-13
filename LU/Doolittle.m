@@ -9,6 +9,7 @@ function [L, U, e] = Doolittle(A)
 %   See also Crout, Cholesky
 
 e = false;
+isSymbolic = isa(A, 'sym');
 
 [n,m] = size(A);
 L = eye(n,n);
@@ -16,6 +17,10 @@ U = 0;
 if n ~= m
     e = true;
     return
+end
+
+if isSymbolic
+    L = sym(L);
 end
 
 
@@ -34,3 +39,4 @@ U = A;
 
 end
 
+%tested for numeric 3x3, symbolic 3x3
