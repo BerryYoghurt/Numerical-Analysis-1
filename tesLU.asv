@@ -1,15 +1,18 @@
 import LU.*
 
-A = [3 -0.1 -0.2; 0.1 7 -0.3; 0.3 -0.2 10];
-b = [1; 2; 3];
+% A = [3 -0.1 -0.2; 3 -0.1 -0.2; 0.3 -0.2 10];
+% b = [1; 2; 3];
+% [L,U,e] = Doolittle(A);
+% if e == false
+%     [x,e] = solve(L,U,b);
+%     disp(A*x,e)
+% end
+% [L,U,e] = Crout(A);
+% if e == false
+%     [x,e] = solve(L,U,b);
+%     disp(A*x,e)
+% end
 
-[L,U,e] = Doolittle(A);
-if e == false
-    [x,e] = solve(L,U,b);
-    %disp(A*x,e)
-end
-[L,U,e] = Crout(A);
-if e == false
-    [x,e] = solve(L,U,b);
-    %disp(A*x,e)
-end
+syms a b c d 
+S = [a b c; b c d; a d b];
+[L,U,err] = Doolittle(S);
