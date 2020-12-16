@@ -1,4 +1,4 @@
-function [L, e] = Cholesky(A)
+function [L, error] = Cholesky(A)
 %CHOLESKY Decomposes A into L*transpose(L)
 %
 %   NOTE: isPositiveDefinite check has to be called on the matrix and evaluate to
@@ -15,7 +15,7 @@ L = zeros(n,n);
 if isSymbolic
     L = sym(L);
 end
-e = false;
+error = false;
 
 
 
@@ -25,7 +25,7 @@ for i = 1 : n
     while j < i
         
         if L(j,j) == 0
-            e = true;
+            error = true;
             return
         end
         

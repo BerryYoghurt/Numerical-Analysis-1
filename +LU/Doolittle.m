@@ -1,4 +1,4 @@
-function [L, U, e] = Doolittle(A)
+function [L, U, error] = Doolittle(A)
 %DOOLITTLE Decomposes A into L * U without pivoting
 %   L is a lower triangular matrix and U is an upper triangular matrix.
 %   The elements of the main diagonal of L are 1.
@@ -8,14 +8,14 @@ function [L, U, e] = Doolittle(A)
 %   
 %   See also Crout, Cholesky
 
-e = false;
+error = false;
 isSymbolic = isa(A, 'sym');
 
 [n,m] = size(A);
 L = eye(n,n);
 U = 0;
 if n ~= m
-    e = true;
+    error = true;
     return
 end
 
@@ -27,7 +27,7 @@ end
 for i = 1 : n-1
    if A(i,i) == 0
        if A(i+1:n,i) ~= zeros(n-i,1)
-            e = true;
+            error = true;
             return
        end
        continue %no need to eliminate anything with this row

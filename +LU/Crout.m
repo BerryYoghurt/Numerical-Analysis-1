@@ -1,4 +1,4 @@
-function [L, U, e] = Crout(A)
+function [L, U, error] = Crout(A)
 %CROUT Decomposes A into L * U without pivoting.
 %   L is a lower triangular matrix.
 %   U is an upper triangular matrix with the elements of the main diagonal
@@ -17,10 +17,10 @@ if isSymbolic
     L = sym(L);
     U = sym(U);
 end
-e = false;
+error = false;
 
 if n ~= m
-    e = true;
+    error = true;
     return
 end
 
@@ -34,7 +34,7 @@ for i = 1 : n
     end
     
     if L(i,i) == 0 && i < n
-        e = true;
+        error = true;
         return
     end
     
