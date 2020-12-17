@@ -1,9 +1,9 @@
-function [err, x] = gaussJordan(A, tolerance, print)
-    
+function [err, x] = gauss(A, tolerance, print)
+
     err = 0;
     n = size(A,1);
     
-    Gauss.output(A,print); %used for simulation to display A before any changes%
+    output(A,print); %used for simulation to display A before any changes%
     
     %forward elimination
     for k = 1:n-1
@@ -23,14 +23,16 @@ function [err, x] = gaussJordan(A, tolerance, print)
         end
     end
     
-    %backward elimination
-    for k = n:-1:2
-       for i = k-1:-1:1
-          A(k,:) = A(k,:)/A(k,k);
-          factor = -A(i,k);
-          A(i,:) = A(k,:) * factor + A(i,:);
-          Gauss.output(A,print); % used for simulation%
-       end
+    
+    x = zeros(n,1);
+    x(n,1) = A(n,n+1)/A(n,n);
+    Gauss.output(x,print); % used for simulation%
+
+    %backward substitution
+    for i = n-1:-1:1
+       sum = A(i, i+1:n) * x(i+1:n, 1);
+       x(i,1) = (A(i,n+1) - sum) / A(i,i);
+       Gauss.output(x,print); % used for simulation%
     end
-    x = A(:,n+1);
+    
 end

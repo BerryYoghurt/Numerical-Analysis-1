@@ -5,7 +5,7 @@ function analysisGaussNaive()
         x = 0;
         for secIndex = 1:100
             randomMatrix = randi([0, 99], [index,index+1]);
-            f = @() Gauss.gauss(randomMatrix, power(10, -6));
+            f = @() Gauss.gauss(randomMatrix, power(10, -6), false);
             x = x + timeit(f);
         end
         liGauss(counter) = x/100;

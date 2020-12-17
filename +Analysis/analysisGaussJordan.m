@@ -5,7 +5,7 @@ function analysisGaussJordan()
         x = 0;
         for secIndex = 1:100
             randomMatrix = randi([0, 99], [index,index+1]);
-            f = @() Gauss.gaussJordan(randomMatrix, power(10, -6));
+            f = @() Gauss.gaussJordan(randomMatrix, power(10, -6), false);
             x = x + timeit(f);
         end
         li(counter) = x/100;

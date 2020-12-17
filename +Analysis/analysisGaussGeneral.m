@@ -9,11 +9,11 @@ function analysisGaussGeneral()
         z = 0;
         for secIndex = 1:100
             randomMatrix = randi([0, 99], [index,index+1]);
-            f = @() Gauss.gauss(randomMatrix, power(10, -6));
+            f = @() Gauss.gauss(randomMatrix, power(10, -6), false);
             x = x + timeit(f);
-            f = @() Gauss.gaussJordan(randomMatrix, power(10, -6));
+            f = @() Gauss.gaussJordan(randomMatrix, power(10, -6), false);
             y = y + timeit(f);
-            f = @() Gauss.gaussWithPivoting(randomMatrix, power(10, -6));
+            f = @() Gauss.gaussWithPivoting(randomMatrix, power(10, -6), false);
             z = z + timeit(f);
         end
         liNaive(counter) = x/100;
