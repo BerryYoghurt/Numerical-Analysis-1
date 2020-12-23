@@ -1,10 +1,10 @@
-function [flag] = isPositiveDefinite(A)
+function [flag] = isPositiveDefinite(A, isSymbolic)
 %ISPOSITIVEDEFINITE Checks if the matrix is symmetric and positive definite
+%   parameter isSymbolic denotes whether A has letter entries
 %   returns true if symmetric and positive definite, false otherwise
 %
 %   SEE ALSO Cholesky
 import LU.*
-isSymbolic = isa(A, 'sym');
 
 [n,m] = size(A);
 
