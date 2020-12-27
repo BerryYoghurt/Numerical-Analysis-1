@@ -1,4 +1,4 @@
-function [b, error] = solveLU(L,U,b)
+function [b, error, sim] = solveLU(L,U,b)
 %SOLVE solves a system of linear equations represented by LUx = b
 %   Argument L is a lower triangular matrix, U is upper triangular, and b
 %   is the column vector of outputs
@@ -10,7 +10,7 @@ function [b, error] = solveLU(L,U,b)
 
 [n,~] = size(L);
 error = 0;
-
+sim = '';
 % forward elimination for Ly = b %
 for i = 1 : n
     if L(i,i) == 0
@@ -26,7 +26,7 @@ for i = 1 : n
     b(i+1:end) = b(i+1:end) - b(i)*factors;
     b(i) = b(i)/L(i,i);
 end
-
+sim = sprintf('%s\n\n y = \n%s', sim, Gauss.output(b,true));
 % backward substitution for Ux = y%
 for i = n : -1: 1
     if U(i,i) == 0
@@ -42,6 +42,7 @@ for i = n : -1: 1
     b(1:i-1) = b(1:i-1) - b(i)*factors;
     b(i) = b(i)/U(i,i);
 end
+sim = sprintf('%s\n\n x = \n%s', sim, Gauss.output(b,true));
 
 end
 

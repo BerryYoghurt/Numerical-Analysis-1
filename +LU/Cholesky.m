@@ -1,4 +1,4 @@
-function [L, error] = Cholesky(A)
+function [L, error, sim] = Cholesky(A)
 %CHOLESKY Decomposes A into L*transpose(L)
 %
 %   NOTE: isPositiveDefinite check has to be called on the matrix and evaluate to
@@ -12,12 +12,12 @@ function [L, error] = Cholesky(A)
 isSymbolic = isa(A,'sym');
 [n,m] = size(A);
 L = zeros(n,n);
+sim = '';
 if isSymbolic
     L = sym(L);
 end
 error = false;
-
-
+sim = sprintf('L = \n%s', Gauss.output(L, true));
 
 
 for i = 1 : n
@@ -34,6 +34,7 @@ for i = 1 : n
     end
     
     L(i,j) = sqrt(A(i,j) - sum(L(i,1:i-1).^2));
+    sim = sprintf('%s\n\n L = \n%s', sim, Gauss.output(L,true));
 end
 
 end

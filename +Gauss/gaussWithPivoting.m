@@ -1,46 +1,48 @@
-function [err, x] = gaussWithPivoting(A, tolerance, print)
+function [err, x, sim] = gaussWithPivoting(A, tolerance, print)
     err = 0;
     n = size(A, 1);
-    Gauss.output(A,print); %used for simulation to display A before any changes%
+    sim = '';
     
-    for k = 1:n-1
+    sim = sprintf('A = %s \n%s', sim, Gauss.output(A,print)); %used for simulation to display A before any changes%
+    
+    for k = 1:n
 
 	    %pivoting
         A(k:end, :) = pivot(A(k:end, :));
         
 	    %check singularity
         if (abs(A(k,k)) < tolerance)
+            x=0;
            err = 1;
-           x = 0;
            return;
         end
         
-        Gauss.output(A,print); % used for simulation%
+        sim = sprintf('%s \n%s', sim, Gauss.output(A,print)); % used for simulation%
         
         %forward elimination
         for i = k+1:n
             factor = A(i,k)/A(k,k);
             A(i,:) = A(i,:) - factor*A(k,:);
-            Gauss.output(A,print); % used for simulation%
+            sim = sprintf('%s \n%s', sim, Gauss.output(A,print)); % used for simulation%
         end
     end
     
     %check singularity
     if (abs(A(k,k)) < tolerance)
+        x=0;
            err = 1;
-           x = 0;
            return;
     end
     
     x = zeros(n,1);
     x(n,1) = A(n,n+1)/A(n,n);
-    Gauss.output(x,print); % used for simulation%
+    sim = sprintf('%s \n\nx = \n%s', sim, Gauss.output(x,print)); % used for simulation%
 
     %backward substitution
     for i = n-1:-1:1
        sum = A(i, i+1:n) * x(i+1:n, 1);
        x(i,1) = (A(i,n+1) - sum) / A(i,i);
-       Gauss.output(x,print); % used for simulation%
+       sim = sprintf('%s \n%s', sim, Gauss.output(x,print)); % used for simulation%
     end
     
 end

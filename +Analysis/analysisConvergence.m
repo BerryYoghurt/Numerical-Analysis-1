@@ -9,9 +9,9 @@ function analysisConvergence()
             randomCoffMatrix = Analysis.diagDomGenerator(index);
             randomConsMatrix = randi([10, 99], [index, 1]);
             initial = ones(index, 1);
-            [~, g] = Iterative.GaussSeidelSolve2(randomCoffMatrix,initial,randomConsMatrix,0.001);
+            [~, g, ~] = Iterative.GaussSeidelSolve2(randomCoffMatrix,initial,randomConsMatrix,0.001);
             x = x + g;
-            [~, j] = Iterative.jacobiSolve2(randomCoffMatrix,initial,randomConsMatrix,0.001);
+            [~, j, ~] = Iterative.jacobiSolve2(randomCoffMatrix,initial,randomConsMatrix,0.001);
             y = y + j;
         end
         liGauss(counter) = x/100;
