@@ -1,6 +1,6 @@
 function [GaussSeidelIterative2, iter, sim] = GaussSeidelSolve2(a,x,b,relativeError)
     l=length(a);
-    sum=0;
+    sum=vpa(0);
     currentError = 100000000;
     iter = 0;
     sim = '';
@@ -17,7 +17,7 @@ function [GaussSeidelIterative2, iter, sim] = GaussSeidelSolve2(a,x,b,relativeEr
             return;
         end
         x(i)=(b(i)-sum)/a(i,i);
-        sum=0;
+        sum=vpa(0);
       end
          currentError = Iterative.findMaxRelativeError(xprev,x);
          nanNo=any(isnan(x(:)));

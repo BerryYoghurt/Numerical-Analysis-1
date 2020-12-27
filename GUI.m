@@ -130,13 +130,19 @@ end
             %data = cell2mat(num2cell(data));
             choice = handles.popupmenu1.Value;
             
+            %PRECISION  AND SYMBOLIC CODE HERE
+            isSymbolic = false; %has at least one letter
+            p = 2; %precision
+            digits(p);
+            data = vpa(data);
+            
             switch(choice)
                 case 1
-                    [err, answer, sim] = Gauss.gauss(data,0.0001,true);
+                    [err, answer, sim] = Gauss.gauss(data,0.0001,true, isSymbolic);
                 case 2
                     [err, answer, sim] = Gauss.gaussWithPivoting(data,0.0001,true);
                 case 3
-                    [err, answer, sim] = Gauss.gaussJordan(data,0.0001,true);
+                    [err, answer, sim] = Gauss.gaussJordan(data,0.0001,true, isSymbolic);
                case 4
                     choice2 = handles.popupmenu2.Value;
                     switch(choice2)
@@ -145,8 +151,12 @@ end
                         case 2
                             [L, U, err, sim] = LU.Crout(data(:,(1:size(data,2)-1)));
                         case 3
-                            [L, err, sim] = LU.Cholesky(data(:,(1:size(data,2)-1)));
-                            U = transpose(L);
+                            if( LU.isPositiveDefinite(data(:,1:end-1), isSymbolic)) %check symmetric and positive definite, otherwise err might be 0 but yet L*L' ~= A
+                                [L, err, sim] = LU.Cholesky(data(:,(1:size(data,2)-1)));
+                                U = transpose(L);
+                            else
+                                err = true;
+                            end
                     end
                     if(err == 0)
                         [answer, err, sim2] = LU.solveLU(L,U,data(:,size(data,2)));
@@ -156,6 +166,8 @@ end
                     choice2 = handles.uibuttongroup1.SelectedObject.Tag;
                     condition = handles.edit2.String;
                     x = transpose(str2num(handles.edit3.String));
+                    % PRECISION CODE
+                    x = vpa(x);
                     x
                     condition
                     data(:,(1:size(data,2)-1))
@@ -176,6 +188,8 @@ end
                     choice2 = handles.uibuttongroup1.SelectedObject.Tag;
                     condition = handles.edit2.String;
                     x = transpose(str2num(handles.edit3.String));
+                    % PRECISION CODE
+                    x = vpa(x);
                     if (condition ~= 0)
                         if (choice2 == 'radiobutton1')
                             [answer, sim] = Iterative.GaussSeidelSolve1(data(:,(1:size(data,2)-1)),x,data(:,size(data,2)),condition);
@@ -201,7 +215,7 @@ end
                 i = 1;
                 for a = answer
                     disp(a)
-                    x = strcat(x, 'x', num2str(i,'%d'), {' = '} ,mat2str(a) , {'        '});
+                    x = strcat(x, 'x', num2str(i,'%d'), {' = '} ,char(a) , {'        '});
                     i = i+1;
                 end
                 set(handles.text5, 'String', x)

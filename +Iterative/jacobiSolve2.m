@@ -1,10 +1,11 @@
 function [jacobiIterative2, iter, sim]= jacobiSolve2(a,x,b,relativeError)
     l=length(a);
-    sum=0;
+    sum=vpa(0);
     iter = 0;
     sim = '';
     currentError=10000000;
-    xnew = zeros(length(x), 1);
+    %xnew = zeros(length(x), 1);
+    xnew = vpa(zeros(length(x), 1));
     while(abs(currentError)>relativeError)
       for i=1:l
         xprev=x;
@@ -14,7 +15,7 @@ function [jacobiIterative2, iter, sim]= jacobiSolve2(a,x,b,relativeError)
             end  
         end
         xnew(i)=(b(i)-sum)/a(i,i);
-        sum=0;
+        sum=vpa(0);
       end
         x=xnew;
         currentError = Iterative.findMaxRelativeError(xprev,x);

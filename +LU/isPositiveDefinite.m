@@ -13,23 +13,18 @@ if n ~= m
     return
 end
 
-if isSymbolic
-    flag = true;
-    for i = 1 : n
-        for j = i+1 : n
-            if A(i,j) ~= A(j,i)
-                flag = false; %not symmetric
-                return
-            end
+flag = true;
+for i = 1 : n
+    for j = i+1 : n
+        if A(i,j) ~= A(j,i)
+            flag = false; %not symmetric
+            return
         end
     end
-else
+end
 
-    flag = true;
-    if ~issymmetric(A)
-        flag = false; %not symmetric
-        return
-    end
+if(flag && ~isSymbolic)
+
     [~,U,e] = Doolittle(A);
     if e
         flag = false; %I don't know if this is possible but for the time being..

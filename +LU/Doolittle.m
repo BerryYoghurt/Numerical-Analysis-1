@@ -9,20 +9,20 @@ function [L, U, error, sim] = Doolittle(A)
 %   See also Crout, Cholesky
 
 error = false;
-isSymbolic = isa(A, 'sym');
+%isSymbolic = isa(A, 'sym');
 sim = '';
 
 [n,m] = size(A);
-L = eye(n,n);
+L = vpa(eye(n,n));
 U = 0;
 if n ~= m
     error = true;
     return
 end
 
-if isSymbolic
-    L = sym(L);
-end
+%if isSymbolic
+%    L = sym(L);
+%end
 
 sim = sprintf('U = \n%s\n\n L = \n%s', Gauss.output(A,true), Gauss.output(L,true));
 for i = 1 : n-1

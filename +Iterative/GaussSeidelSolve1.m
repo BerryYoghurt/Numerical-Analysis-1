@@ -1,6 +1,6 @@
 function [GaussSeidelIterative, sim] = GaussSeidelSolve1(a,x,b,numberOfLoops)
     l=length(a);
-    sum=0;
+    sum=vpa(0);
     sim = '';
     n=1;
     while(n<=numberOfLoops)
@@ -11,7 +11,7 @@ function [GaussSeidelIterative, sim] = GaussSeidelSolve1(a,x,b,numberOfLoops)
             end
         end
         x(i)=(b(i)-sum)/a(i,i);
-        sum=0;
+        sum=vpa(0);
       end
       sim = sprintf('%s\n\nIteration %d = \n%s', sim, n, Gauss.output(x,true));
       n=n+1;

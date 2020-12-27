@@ -34,7 +34,7 @@ function [err, x, sim] = gaussWithPivoting(A, tolerance, print)
            return;
     end
     
-    x = zeros(n,1);
+    x = vpa(zeros(n,1));
     x(n,1) = A(n,n+1)/A(n,n);
     sim = sprintf('%s \n\nx = \n%s', sim, Gauss.output(x,print)); % used for simulation%
 

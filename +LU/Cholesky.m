@@ -9,13 +9,13 @@ function [L, error, sim] = Cholesky(A)
 %   For the time being, the function returns an answer when A is not
 %   positive definite, but the answer is wrong.
 
-isSymbolic = isa(A,'sym');
-[n,m] = size(A);
-L = zeros(n,n);
-sim = '';
-if isSymbolic
-    L = sym(L);
-end
+%isSymbolic = isa(A,'sym');
+[n,~] = size(A);
+L = vpa(zeros(n,n));
+%sim = '';
+%if isSymbolic
+%    L = sym(L);
+%end
 error = false;
 sim = sprintf('L = \n%s', Gauss.output(L, true));
 

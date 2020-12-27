@@ -1,4 +1,4 @@
-function [err, x, sim] = gaussJordan(A, tolerance, print)
+function [err, x, sim] = gaussJordan(A, tolerance, print, isSymbolic)
     
     err = 0;
     n = size(A,1);
@@ -10,7 +10,7 @@ function [err, x, sim] = gaussJordan(A, tolerance, print)
     for k = 1:n
         pivot = A(k,k);
         %return error if pivot is zero
-        if (abs(pivot) < tolerance)
+        if ((~isSymbolic&&(abs(pivot) < tolerance)) || (isSymbolic && pivot == 0))
             x=0;
             err = 1;
            return;

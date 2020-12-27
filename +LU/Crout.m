@@ -10,14 +10,14 @@ function [L, U, error, sim] = Crout(A)
 %   See also Doolittle, Cholesky
 
 [n, m] = size(A);
-isSymbolic = isa(A,'sym');
-L = zeros(n,n);
-U = eye(n,n);
+%isSymbolic = isa(A,'sym'); everything is symbolic anyway
+L = vpa(zeros(n,n));
+U = vpa(eye(n,n));
 sim = '';
-if isSymbolic
-    L = sym(L);
-    U = sym(U);
-end
+%if isSymbolic
+%    L = sym(L);
+%    U = sym(U);
+%end
 error = false;
 
 if n ~= m

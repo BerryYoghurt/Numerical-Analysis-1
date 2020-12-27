@@ -1,4 +1,4 @@
-function [err, x, sim] = gauss(A, tolerance, print)
+function [err, x, sim] = gauss(A, tolerance, print, isSymbolic)
     
     sim = '';
     err = 0;
@@ -9,7 +9,7 @@ function [err, x, sim] = gauss(A, tolerance, print)
     for k = 1:n
         pivot = A(k,k);
         %return error if pivot is zero
-        if (abs(pivot) < tolerance)
+        if ((~isSymbolic&&(abs(pivot) < tolerance)) || (isSymbolic && pivot == 0))
             x=0;
             err = 1;
            return;
@@ -24,7 +24,8 @@ function [err, x, sim] = gauss(A, tolerance, print)
     end
     
     
-    x = zeros(n,1);
+    %x = zeros(n,1);
+    x = vpa(zeros(n,1));
     x(n,1) = A(n,n+1)/A(n,n);
     sim = sprintf('%s \n\nx = \n%s', sim, Gauss.output(x,print)); % used for simulation%
 
