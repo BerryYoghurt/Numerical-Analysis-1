@@ -76,7 +76,7 @@ varargout{1} = handles.output;
 
 function edit1_Callback(hObject, eventdata, handles)
 N=str2double(get(hObject,'String'));
-data = zeros(N,N+1);
+data = cell(N,N+1);
 t = uitable(GUI,'data',data);
 
 D=cell(N+1,1);
@@ -127,14 +127,16 @@ end
             disp('Please Choose Number of Equations');
             
         else
-            %data = cell2mat(num2cell(data));
+            %data = cell2mat(num2cell(data));            
             choice = handles.popupmenu1.Value;
-            
-            %PRECISION  AND SYMBOLIC CODE HERE
-            isSymbolic = false; %has at least one letter
-            p = 2; %precision
+            isSymbolic = handles.checkbox2.Value; %%isSymbolic
+            p = str2num(handles.edit5.String);
             digits(p);
-            data = vpa(data);
+            if(isSymbolic)
+                data = sym(data);
+            else
+                data = vpa(data);
+            end
             
             switch(choice)
                 case 1
@@ -166,10 +168,7 @@ end
                     choice2 = handles.uibuttongroup1.SelectedObject.Tag;
                     condition = handles.edit2.String;
                     x = transpose(str2num(handles.edit3.String));
-                    % PRECISION CODE
                     x = vpa(x);
-                    x
-                    condition
                     data(:,(1:size(data,2)-1))
                     data(:,size(data,2))
                     if (condition ~= 0)
@@ -188,13 +187,14 @@ end
                     choice2 = handles.uibuttongroup1.SelectedObject.Tag;
                     condition = handles.edit2.String;
                     x = transpose(str2num(handles.edit3.String));
-                    % PRECISION CODE
                     x = vpa(x);
                     if (condition ~= 0)
                         if (choice2 == 'radiobutton1')
                             [answer, sim] = Iterative.GaussSeidelSolve1(data(:,(1:size(data,2)-1)),x,data(:,size(data,2)),condition);
+                            err = 0;
                         else
                             [answer, sim] = Iterative.GaussSeidelSolve2(data(:,(1:size(data,2)-1)),x,data(:,size(data,2)),condition);
+                            err = 0;
                         end
                     else
                         err = -1;
@@ -425,7 +425,9 @@ function uibuttongroup2_CreateFcn(hObject, eventdata, handles)
 
 % --- Executes on button press in radiobutton4.
 function radiobutton4_Callback(hObject, eventdata, handles)
+table = findobj(GUI,'Type','uitable');
 if(get(hObject,'Value')==1)
+    set(table,'visible','off');
     set(handles.edit1,'visible','off');
     set(handles.edit4,'visible','on');
 end
@@ -448,3 +450,33 @@ end
 % handles    structure with handles and user data (see GUIDATA)
 
 % Hint: get(hObject,'Value') returns toggle state of radiobutton3
+
+% --- Executes on button press in checkbox2.
+function checkbox2_Callback(hObject, eventdata, handles)
+% hObject    handle to checkbox2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of checkbox2
+
+function edit5_Callback(hObject, eventdata, handles)
+% hObject    handle to edit5 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit5 as text
+%        str2double(get(hObject,'String')) returns contents of edit5 as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function edit5_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit5 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
