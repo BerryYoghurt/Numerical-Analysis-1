@@ -5,7 +5,7 @@ function sim = output(out, bool)
         %sim = '';
         for i = 1:l
             %sim = sprintf('%s \n%s', sim, num2str(out(i,:)));
-            sim = sprintf('%s \n%s', sim, out(i,:));
+            sim = sprintf('%s \n%s', sim, char(out(i,:)));
         end
     end
 end
